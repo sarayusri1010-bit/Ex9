@@ -1,0 +1,40 @@
+import java.sql.*;
+
+public class DeleteRecord {
+    public static void main(String[] args) {
+
+        String url = "jdbc:mysql://localhost:3306/studentdb";
+        String user = "root";
+        String password = "root";
+
+        try {
+            // Connect to database
+            Connection con = DriverManager.getConnection(url, user, password);
+
+            // SQL delete query
+            String query = "DELETE FROM student WHERE id = ?";
+
+            // Create PreparedStatement
+            PreparedStatement ps = con.prepareStatement(query);
+
+            // ID of the record to delete
+            ps.setInt(1, 101);
+
+            // Execute query
+            int result = ps.executeUpdate();
+
+            if (result > 0) {
+                System.out.println("Record deleted successfully.");
+            } else {
+                System.out.println("Record not found.");
+            }
+
+            // Close connection
+            ps.close();
+            con.close();
+
+        } catch (SQLException e) {
+            System.out.println("Database error: " + e.getMessage());
+        }
+    }
+}
